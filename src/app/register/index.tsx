@@ -3,18 +3,24 @@ import CustomInput from "@/components/Input";
 import { Alert, Image, ScrollView, Text, View } from "react-native";
 import { styles } from "./styles";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormError from "@/components/FormError";
+import { router } from "expo-router";
+import * as ImagePicker from 'expo-image-picker';
+import { UserService } from "@/services/UserService";
+
+
 
 const registerUserSchema = z.object({
+    userPhoto: z.any(),
     name: z.string({ message: "O nome é obrigatório" }),
     email: z.string({ message: "O email é obrigatório" }).email({ message: "Insira um email valido" }),
     phone: z.string({ message: "O telefone é obrigatório" }),
-    monthyIncome: z.string({ message: "O salario é obrigatório" }),
-    password: z.string({ message: "A senha é obrigatório" }),
-    confirm_password: z.string()
+    monthlyIncome: z.string({ message: "O salario é obrigatório" }),
+    password: z.string({ message: "A senha é obrigatória" }),
+    confirm_password: z.string({ message: "A confirmação da senha é obrigatória" })
 })
 
 type RegisterFormdata = z.infer<typeof registerUserSchema>
@@ -22,24 +28,70 @@ type RegisterFormdata = z.infer<typeof registerUserSchema>
 
 export default function Register() {
 
-    const { handleSubmit, register, control, formState: { errors } } = useForm<RegisterFormdata>({
+    const { handleSubmit, control, formState: { errors }, setValue } = useForm<RegisterFormdata>({
         resolver: zodResolver(registerUserSchema)
     })
 
-    async function SubmitForm(data: RegisterFormdata) {
+    async function PickImage(onChange: (...event: any[]) => void) {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ['images', 'videos'],
+            allowsEditing: true,
+            aspect: [1, 1],
+            quality: 1,
+        });
 
-        console.log(data)
-        console.log("log")
+        if (!result.canceled) {
+            onChange(result.assets[0].uri)
+        }
     }
+
+
+
+
+    async function SubmitForm(data: RegisterFormdata) {
+        try {
+            if (!(data.password === data.confirm_password)) {
+                return Alert.alert("As duas senhas não correspondem")
+            }
+
+            await UserService.createUser({
+                userPhoto: data.userPhoto,
+                name: data.name,
+                email: data.email,
+                phone: data.phone,
+                monthlyIncome: data.monthlyIncome,
+                password: data.password
+            })
+
+            Alert.alert("Sucesso", "Usuario criado com sucesso")
+            return router.back()
+        } catch (error: any) {
+            Alert.alert("Erro", error.message)
+        }
+
+
+
+    }
+
+
 
     return (
         <SafeAreaView>
             <ScrollView contentContainerStyle={styles.container}>
                 <Image style={styles.logo} source={require("@/assets/logo-tfm.png")} />
                 <View style={styles.content}>
-                    <Text style={styles.title}>Registrar</Text>
-                    <View>
-                        <CustomButton title="Selecione uma foto de perfil (Opcional)" variant="default" />
+                    <Text style={styles.title}>Criar Nova Conta</Text>
+                    <View style={styles.form}>
+                        <Controller
+                            render={({ field: { onChange, value } }) => (
+                                <>
+                                    {value && <Image source={{ uri: value }} style={styles.imagePreview} />}
+                                    <CustomButton title="Selecione uma foto de perfil (Opcional)" variant="default" onPress={() => PickImage(onChange)} />
+                                </>
+                            )}
+                            name="userPhoto"
+                            control={control}
+                        />
                         <CustomInput
                             label="Nome"
                             placeholder="Insira o seu nome"
@@ -72,8 +124,8 @@ export default function Register() {
                             placeholder="1500"
                             inputMode="numeric"
                             control={control}
-                            name="monthyIncome"
-                            errorMessage={errors.monthyIncome?.message ? errors.monthyIncome.message : undefined}
+                            name="monthlyIncome"
+                            errorMessage={errors.monthlyIncome?.message ? errors.monthlyIncome.message : undefined}
                         />
 
                         <CustomInput
@@ -89,11 +141,11 @@ export default function Register() {
                             placeholder="Confirme sua senha"
                             secureTextEntry={true}
                             control={control}
-                            name="password_confirmation"
+                            name="confirm_password"
                         />
                         <View style={styles.formFooter}>
                             <CustomButton title="Enviar" variant="default" onPress={handleSubmit(SubmitForm)} />
-                            <CustomButton title="Crie uma conta" variant="link" />
+                            <CustomButton title="Voltar" variant="link" onPress={() => router.back()} />
                         </View>
                     </View>
                 </View>

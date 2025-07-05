@@ -5,7 +5,8 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
     container: {
         alignItems: "center",
-        padding : 10
+        gap: 20,
+        padding : 20
     },
     content: {
         flex : 1,
@@ -17,8 +18,17 @@ export const styles = StyleSheet.create({
         height: 300
     },
     title: {
-        fontSize: 24,
+        fontSize: 30,
         fontWeight: 500
+    },
+    form:{
+        alignItems: "center"
+    },
+    imagePreview: {
+        width: 100, 
+        height: 100, 
+        borderRadius: 50, 
+        marginBottom: 10
     },
     formFooter: {
         flexDirection: "row",

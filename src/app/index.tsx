@@ -53,7 +53,7 @@ export default function Index() {
                             errorMessage={errors.password?.message ? errors.password.message : undefined}
                         />
                         <View style={styles.formFooter}>
-                            <CustomButton title="Enviar" variant="default" onPress={handleSubmit(SubmitForm)} />
+                            <CustomButton title="Enviar" variant="default" onPress={() => router.navigate("/home")} />
                             <CustomButton title="Crie uma conta" variant="link" onPress={() => router.navigate("/register")} />
                         </View>
                     </View>
