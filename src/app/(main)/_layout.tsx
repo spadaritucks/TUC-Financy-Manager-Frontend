@@ -7,12 +7,18 @@ export default function MainLayout() {
         {{
             headerShown: false,
             tabBarInactiveTintColor: colors.gray[500],
-            tabBarActiveTintColor : colors.sky[500],
+            tabBarActiveTintColor: colors.sky[500],
         }}>
         <Tabs.Screen
             name="home/index" options={{
                 title: "Home",
                 tabBarIcon: ({ color, size }) => <MaterialIcons name="home" color={color} size={size} />,
+            }} />
+        <Tabs.Screen
+            name="transactions/index"
+            options={{
+                title: "Extrato",
+                tabBarIcon: ({ color, size }) => <MaterialIcons name="list" color={color} size={size} />
             }} />
         <Tabs.Screen
             name="target/index"
@@ -26,6 +32,7 @@ export default function MainLayout() {
                 title: "Dashboard",
                 tabBarIcon: ({ color, size }) => <MaterialIcons name="dashboard" color={color} size={size} />
             }} />
+
 
     </Tabs>
 }

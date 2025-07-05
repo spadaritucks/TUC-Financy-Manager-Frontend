@@ -1,10 +1,14 @@
-import { Text, View } from "react-native";
+import Header from "@/components/Header";
+import { ScrollView, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";  
 
-export default function Dashboard () {
+export default function Dashboard() {
 
-    return(
-        <View>
-            <Text>Hello World</Text>
-        </View>
+    return (
+        <SafeAreaView>
+            <ScrollView>
+                <Header title="Dashboard" />
+            </ScrollView>
+        </SafeAreaView>
     )
 }

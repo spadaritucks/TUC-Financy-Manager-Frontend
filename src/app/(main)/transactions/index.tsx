@@ -2,13 +2,13 @@ import Header from "@/components/Header";
 import { ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function Target() {
+export default function Transactions () {
 
-    return (
+    return(
         <SafeAreaView>
             <ScrollView>
-                <Header title="Metas" />
+                <Header title="Extrato"/>
             </ScrollView>
-        </SafeAreaView> 
+        </SafeAreaView>
     )
 }

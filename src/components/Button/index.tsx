@@ -1,12 +1,19 @@
 import {Text, TouchableOpacity, TouchableOpacityProps} from "react-native"
 import { styles } from "./styles"
 
+
+
 type ButtonVariants = "link" | "destructive" | "success" | "default"
+
+
 
 interface CustomButtonProps extends TouchableOpacityProps {
     variant : ButtonVariants
     title : string
 }
+
+
+
 
 export default function CustomButton ({variant, title, ...rest} : CustomButtonProps) {
 
