@@ -1,4 +1,4 @@
-import { colors } from "@/theme/default-colors";
+
 import { StyleSheet } from "react-native";
 
 
