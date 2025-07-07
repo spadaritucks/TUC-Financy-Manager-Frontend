@@ -3,6 +3,8 @@ import { styles } from "./styles";
 import { colors } from "@/theme/default-colors";
 import MaterialIcons from '@react-native-vector-icons/material-icons';
 
+
+
 export default function TransactionTotal() {
 
     return (
