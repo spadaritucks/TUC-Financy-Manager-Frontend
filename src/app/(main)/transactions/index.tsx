@@ -7,6 +7,7 @@ import TransactionTotal from "@/components/TransactionTotal";
 import TransactionItem from "@/components/TransactionItem";
 import Separator from "@/components/Separator";
 import { colors } from "@/theme/default-colors";
+import { router } from "expo-router";
 
 interface TransactionTotal {
     transactionsValues: []
@@ -58,7 +59,7 @@ export default function Transactions() {
                 <Header title="Extrato" />
                 <TransactionTotal />
                 <View style={styles.actions}>
-                    <CustomButton title="Adicionar transação" variant="success" />
+                    <CustomButton title="Adicionar transação" variant="success"  onPress={() => router.navigate("/create/transaction")} />
                     <CustomButton title="Baixar Extrato" variant="default" />
                 </View>
 

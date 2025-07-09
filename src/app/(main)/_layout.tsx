@@ -21,7 +21,7 @@ export default function MainLayout() {
                 tabBarIcon: ({ color, size }) => <MaterialIcons name="list" color={color} size={size} />
             }} />
         <Tabs.Screen
-            name="target/index"
+            name="goal/index"
             options={{
                 title: "Metas",
                 tabBarIcon: ({ color, size }) => <MaterialIcons name="arrow-circle-up" color={color} size={size} />
@@ -32,6 +32,7 @@ export default function MainLayout() {
                 title: "Dashboard",
                 tabBarIcon: ({ color, size }) => <MaterialIcons name="dashboard" color={color} size={size} />
             }} />
+
 
 
     </Tabs>

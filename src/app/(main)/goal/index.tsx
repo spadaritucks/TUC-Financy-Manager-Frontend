@@ -7,8 +7,11 @@ import CustomButton from "@/components/Button";
 import Separator from "@/components/Separator";
 import { colors } from "@/theme/default-colors";
 import GoalItem from "@/components/GoalItem";
+import Dialog from "@/components/Dialog";
+import { router } from "expo-router";
 
-export default function Target() {
+
+export default function Goal() {
 
     const goals = [
         {
@@ -103,9 +106,9 @@ export default function Target() {
                 <Header title="Metas" />
                 <GoalTotal />
                 <View style={styles.actions}>
-                    <CustomButton title="Criar Meta" variant="success" />
+                    <CustomButton title="Criar Meta" variant="success" onPress={() => router.navigate("/create/goal")} />
                 </View>
-
+                
                 <View style={styles.contentList}>
 
                     <View style={styles.title}>

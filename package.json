@@ -24,6 +24,7 @@
     "react-hook-form": "^7.59.0",
     "react-native": "0.79.5",
     "react-native-dotenv": "^3.4.11",
+    "react-native-dropdown-picker": "^5.4.6",
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "~4.11.1",
     "zod": "^3.25.71"
