@@ -62,6 +62,7 @@ export default function Register() {
                 monthlyIncome: data.monthlyIncome,
                 password: data.password
             })
+            
 
             Alert.alert("Sucesso", "Usuario criado com sucesso")
             return router.back()

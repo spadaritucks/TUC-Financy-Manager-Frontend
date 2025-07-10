@@ -1,8 +1,14 @@
 import { Tabs } from "expo-router";
 import MaterialIcons from '@react-native-vector-icons/material-icons';
 import { colors } from "@/theme/default-colors";
+import { useMiddleware } from "@/utils/middleware";
 
 export default function MainLayout() {
+
+
+    useMiddleware()
+
+
     return <Tabs screenOptions=
         {{
             headerShown: false,
