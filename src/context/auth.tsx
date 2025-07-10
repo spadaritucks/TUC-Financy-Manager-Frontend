@@ -7,7 +7,7 @@ import { createContext, ReactNode, useContext, useState } from "react";
 import { Alert } from "react-native";
 
 interface AuthContextData {
-    user: AuthResponseDTO | null
+    authData: AuthResponseDTO | null
     login: (data: AuthRequestDTO) => Promise<void>
     logout: () => void
 }
@@ -16,7 +16,7 @@ export const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
 
-    const [user, setUser] = useState<AuthResponseDTO | null>(null)
+    const [authData, setAuthData] = useState<AuthResponseDTO | null>(null)
 
     async function login(data : AuthRequestDTO) : Promise<void> {
         try {
@@ -27,8 +27,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 password: data.password
             })
 
-            storage.set("token", response.token)
-            response ? setUser(response) : setUser(null)
+            storage.set("@token", response.token)
+            storage.set("@user", JSON.stringify(response.user))
+            response ? setAuthData(response) : setAuthData(null)
 
             router.replace("/home")
 
@@ -39,14 +40,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     function logout() {
         storage.delete("token")
-        setUser(null)
+        setAuthData(null)
         router.replace("/")
     }
 
 
 
     return (
-        <AuthContext.Provider value={{user, login, logout}}>
+        <AuthContext.Provider value={{authData, login, logout}}>
             {children}
         </AuthContext.Provider>
     )

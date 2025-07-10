@@ -20,9 +20,8 @@ export class AuthService {
         if(!response.ok){
             throw new Error(data.message)
         }
-        
+
         return data
-
-
+        
     }
 }

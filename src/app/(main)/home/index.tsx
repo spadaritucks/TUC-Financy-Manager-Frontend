@@ -7,15 +7,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Home() {
 
-    
-    const {logout} = useAuth()
+
 
 
     return (
         <SafeAreaView>
             <ScrollView>
                 <Header title="Home" />
-                <CustomButton title="Logout" variant="default" onPress={logout}/>
             </ScrollView>
         </SafeAreaView>         
     )
