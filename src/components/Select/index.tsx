@@ -3,7 +3,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { Text, View } from "react-native";
 import { useState } from "react";
 import { Control, Controller, useForm } from "react-hook-form";
-import { TransactionTypeEnum } from "@/types/DTOs/Transactions/TransactionTypeEnum";
+import { TransactionTypeEnum } from "@/types/DTOs/Enums/TransactionTypeEnum";
 import FormError from "../FormError";
 import { styles } from "./styles";
 

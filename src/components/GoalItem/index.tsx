@@ -1,7 +1,7 @@
 import { Text, TouchableOpacity, View } from "react-native";
 import { styles } from "./styles";
-import { TransactionTypeEnum } from "@/types/DTOs/Transactions/TransactionTypeEnum";
-import { GoalStatus } from "@/types/DTOs/Goals/GoalStatus";
+import { TransactionTypeEnum } from "@/types/DTOs/Enums/TransactionTypeEnum";
+import { GoalStatus } from "@/types/DTOs/Enums/GoalStatus";
 
 interface GoalItemProps {
     targetValue: number,

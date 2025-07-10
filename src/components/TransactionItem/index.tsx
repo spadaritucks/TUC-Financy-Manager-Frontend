@@ -1,6 +1,6 @@
 import { Text, TouchableOpacity, View } from "react-native";
 import { styles } from "./styles";
-import { TransactionTypeEnum } from "@/types/DTOs/Transactions/TransactionTypeEnum";
+import { TransactionTypeEnum } from "@/types/DTOs/Enums/TransactionTypeEnum";
 
 interface TransactionItemProps {
     transactionValue: number

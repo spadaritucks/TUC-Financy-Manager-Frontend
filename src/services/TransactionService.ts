@@ -1,14 +1,14 @@
 import { useAuth } from "@/context/auth";
-import { UserRequestDTO } from "@/types/DTOs/Users/UserRequestDTO";
-import { UserResponseDTO } from "@/types/DTOs/Users/UserResponseDTO";
+import { TransactionRequestDTO } from "@/types/DTOs/Transactions/TransactionRequestDTO";
+import { TransactionResponseDTO } from "@/types/DTOs/Transactions/TransactionResponseDTO";
 import { API_URL } from "@env";
 
 const { authData } = useAuth()
 
-export class UserService {
+export class TransactionService {
 
-    static async getAllUsers(page: string, size: string): Promise<UserResponseDTO[]> {
-        const response = await fetch(`${API_URL}/users?page=${page}&size=${size}`,{
+    static async getAllTransactions(page: string, size: string): Promise<TransactionResponseDTO[]> {
+        const response = await fetch(`${API_URL}/transactions?page=${page}&size=${size}`, {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${authData && authData.token}`
@@ -20,15 +20,17 @@ export class UserService {
         return data
     }
 
-    static async createUser(UserRequestDTO: UserRequestDTO): Promise<void> {
-        const response = await fetch(`${API_URL}/users`, {
+
+
+    static async createTransaction(transactionRequestDTO: TransactionRequestDTO) {
+        const response = await fetch(`${API_URL}/transactions`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${authData && authData.token}`
             },
-            body: JSON.stringify(UserRequestDTO)
+            body: JSON.stringify(transactionRequestDTO)
         })
-
 
         const data = await response.json()
 
@@ -39,6 +41,5 @@ export class UserService {
             throw new Error(data.message)
         }
         return data
-
     }
 }

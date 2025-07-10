@@ -1,14 +1,14 @@
 import { useAuth } from "@/context/auth";
-import { UserRequestDTO } from "@/types/DTOs/Users/UserRequestDTO";
-import { UserResponseDTO } from "@/types/DTOs/Users/UserResponseDTO";
+import { GoalResponseDTO } from "@/types/DTOs/Goals/GoalResponseDTO";
+import { GoalRequestDTO } from "@/types/DTOs/Goals/GoalRequestDTO";
 import { API_URL } from "@env";
 
 const { authData } = useAuth()
 
-export class UserService {
+export class GoalService {
 
-    static async getAllUsers(page: string, size: string): Promise<UserResponseDTO[]> {
-        const response = await fetch(`${API_URL}/users?page=${page}&size=${size}`,{
+    static async getAllGoals(page: string, size: string): Promise<GoalResponseDTO[]> {
+        const response = await fetch(`${API_URL}/goals?page=${page}&size=${size}`, {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${authData && authData.token}`
@@ -20,15 +20,17 @@ export class UserService {
         return data
     }
 
-    static async createUser(UserRequestDTO: UserRequestDTO): Promise<void> {
-        const response = await fetch(`${API_URL}/users`, {
+
+
+    static async createGoal(goalRequestDTO: GoalRequestDTO) {
+        const response = await fetch(`${API_URL}/goals`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${authData && authData.token}`
             },
-            body: JSON.stringify(UserRequestDTO)
+            body: JSON.stringify(goalRequestDTO)
         })
-
 
         const data = await response.json()
 
@@ -39,6 +41,5 @@ export class UserService {
             throw new Error(data.message)
         }
         return data
-
     }
 }
