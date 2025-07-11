@@ -3,6 +3,6 @@ export type UserRequestDTO = {
     name: string;
     email: string;
     phone: string;
-    monthlyIncome: string;
+    monthlyIncome: number;
     password: string;
 }

@@ -15,11 +15,26 @@ import { UserService } from "@/services/UserService";
 
 const registerUserSchema = z.object({
     userPhoto: z.any(),
-    name: z.string({ message: "O nome é obrigatório" }),
-    email: z.string({ message: "O email é obrigatório" }).email({ message: "Insira um email valido" }),
-    phone: z.string({ message: "O telefone é obrigatório" }),
+    name: z.string({ message: "O nome é obrigatório" })
+        .min(2, "O nome deve ter no mínimo 2 caracteres")
+        .max(100, "O nome deve ter no máximo 100 caracteres"),
+        
+    email: z.string({ message: "O email é obrigatório" })
+    .email({ message: "Insira um email valido" }),
+
+    phone: z.string({ message: "O telefone é obrigatório" })
+        .regex(
+            /^\(\d{2}\) \d{5}-\d{4}$/,
+            "Telefone deve estar no formato (11) 99999-9999"
+        ),
+
     monthlyIncome: z.string({ message: "O salario é obrigatório" }),
-    password: z.string({ message: "A senha é obrigatória" }),
+
+    password: z.string({ message: "A senha é obrigatória" })
+        .regex(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+            "A senha deve conter no mínimo 8 caracteres, com ao menos uma letra maiúscula, uma minúscula, um número e um caractere especial"
+        ),
     confirm_password: z.string({ message: "A confirmação da senha é obrigatória" })
 })
 
@@ -59,10 +74,10 @@ export default function Register() {
                 name: data.name,
                 email: data.email,
                 phone: data.phone,
-                monthlyIncome: data.monthlyIncome,
+                monthlyIncome: parseFloat(data.monthlyIncome),
                 password: data.password
             })
-            
+
 
             Alert.alert("Sucesso", "Usuario criado com sucesso")
             return router.back()

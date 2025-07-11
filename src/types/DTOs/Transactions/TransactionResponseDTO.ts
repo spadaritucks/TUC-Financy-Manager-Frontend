@@ -9,6 +9,6 @@ export type TransactionResponseDTO = {
     transactionValue : number
     description: string
     transactionStatus : TransactionStatus
-    created_at:string
-    updated_at : string
+    createdAt: string
+    updatedAt:string
 }

@@ -2,8 +2,9 @@ import { useAuth } from "@/context/auth";
 import { GoalResponseDTO } from "@/types/DTOs/Goals/GoalResponseDTO";
 import { GoalRequestDTO } from "@/types/DTOs/Goals/GoalRequestDTO";
 import { API_URL } from "@env";
+import { storage } from "@/utils/storage";
 
-const { authData } = useAuth()
+const token = storage.getString("token");
 
 export class GoalService {
 
@@ -11,7 +12,7 @@ export class GoalService {
         const response = await fetch(`${API_URL}/goals?page=${page}&size=${size}`, {
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${authData && authData.token}`
+                "Authorization": `Bearer ${token}`
             }
         })
 
@@ -27,7 +28,7 @@ export class GoalService {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${authData && authData.token}`
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify(goalRequestDTO)
         })

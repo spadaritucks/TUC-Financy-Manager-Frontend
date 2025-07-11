@@ -1,16 +1,15 @@
 import { useAuth } from "@/context/auth";
-import { UserRequestDTO } from "@/types/DTOs/Users/UserRequestDTO";
-import { UserResponseDTO } from "@/types/DTOs/Users/UserResponseDTO";
+import { SubcategoryRequestDTO } from "@/types/DTOs/Subcategory/SubcategoryRequestDTO";
+import { SubcategoryResponseDTO } from "@/types/DTOs/Subcategory/SubcategoryResponseDTO";
 import { storage } from "@/utils/storage";
 import { API_URL } from "@env";
 
+const token = storage.getString("@token");
 
-const token = storage.getString("token");
+export class SubcategoryService {
 
-export class UserService {
-
-    static async getAllUsers(page: string, size: string): Promise<UserResponseDTO[]> {
-        const response = await fetch(`${API_URL}/users?page=${page}&size=${size}`,{
+    static async getAllSubcategories(page: number, size: number): Promise<SubcategoryResponseDTO[]> {
+        const response = await fetch(`${API_URL}/subcategories?page=${page}&size=${size}`, {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
@@ -22,15 +21,17 @@ export class UserService {
         return data
     }
 
-    static async createUser(UserRequestDTO: UserRequestDTO): Promise<void> {
-        const response = await fetch(`${API_URL}/users`, {
+
+
+    static async createSubcategory(subcategoryRequestDTO: SubcategoryRequestDTO) {
+        const response = await fetch(`${API_URL}/subcategories`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             },
-            body: JSON.stringify(UserRequestDTO)
+            body: JSON.stringify(subcategoryRequestDTO)
         })
-
 
         const data = await response.json()
 
@@ -41,6 +42,5 @@ export class UserService {
             throw new Error(data.message)
         }
         return data
-
     }
 }

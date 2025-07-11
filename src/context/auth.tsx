@@ -20,7 +20,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     async function login(data : AuthRequestDTO) : Promise<void> {
         try {
-            console.log(data)
 
             const response = await AuthService.Auth({
                 email: data.email,

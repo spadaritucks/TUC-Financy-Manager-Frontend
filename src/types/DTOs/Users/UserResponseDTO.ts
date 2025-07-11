@@ -4,9 +4,9 @@ export type UserResponseDTO = {
     name: string;
     email: string;
     phone: string;
-    monthlyIncome: string;
+    monthlyIncome: number;
     password: string;
-    created_at : string
-    updated_at: string
+    createdAt: string
+    updatedAt:string
 }
 

@@ -1,9 +1,10 @@
 import { useAuth } from "@/context/auth";
 import { TransactionRequestDTO } from "@/types/DTOs/Transactions/TransactionRequestDTO";
 import { TransactionResponseDTO } from "@/types/DTOs/Transactions/TransactionResponseDTO";
+import { storage } from "@/utils/storage";
 import { API_URL } from "@env";
 
-const { authData } = useAuth()
+const token = storage.getString("@token");
 
 export class TransactionService {
 
@@ -11,7 +12,7 @@ export class TransactionService {
         const response = await fetch(`${API_URL}/transactions?page=${page}&size=${size}`, {
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${authData && authData.token}`
+                "Authorization": `Bearer ${token}`
             }
         })
 
@@ -27,7 +28,7 @@ export class TransactionService {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${authData && authData.token}`
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify(transactionRequestDTO)
         })

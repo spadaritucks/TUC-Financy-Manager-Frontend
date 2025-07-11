@@ -1,7 +1,7 @@
 // import { useForm, Controller } from "react-hook-form";
 import DropDownPicker from "react-native-dropdown-picker";
 import { Text, View } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Control, Controller, useForm } from "react-hook-form";
 import { TransactionTypeEnum } from "@/types/DTOs/Enums/TransactionTypeEnum";
 import FormError from "../FormError";
@@ -22,7 +22,11 @@ export default function Select({ label, control, name, errorMessage, items, plac
     const [open, setOpen] = useState(false);
     const [internalItems, setInternalItems] = useState(items);
 
+    useEffect(() => {
+        setInternalItems(items);
+      }, [items]);
 
+      
     return (
         <View style={styles.container}>
             <Text style={styles.label}>{label}</Text>
@@ -35,6 +39,7 @@ export default function Select({ label, control, name, errorMessage, items, plac
                         style={styles.select}
                         open={open}
                         value={value}
+                        listMode="SCROLLVIEW"
                         items={internalItems}
                         setOpen={setOpen}
                         setValue={(callback) => onChange(callback(value))}

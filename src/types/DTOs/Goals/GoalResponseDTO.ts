@@ -9,6 +9,6 @@ export type GoalResponseDTO = {
     start_date : Date
     end_date: Date
     goalStatus : GoalStatus
-    created_at: string
-    updated_at: string
+    createdAt: string
+    updatedAt:string
 }
