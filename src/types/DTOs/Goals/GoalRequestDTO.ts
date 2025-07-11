@@ -2,10 +2,10 @@ import { GoalStatus } from "../Enums/GoalStatus"
 
 export type GoalRequestDTO = {
     userId: string
-    subcategoryId: string
+    subCategoryId: string
     goalName : string
-    targetValue : string
-    start_date : Date
-    end_date: Date
+    targetValue : number
+    startDate : string
+    endDate: string
     goalStatus : GoalStatus
 }

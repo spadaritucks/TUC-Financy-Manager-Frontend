@@ -4,7 +4,7 @@ import { GoalRequestDTO } from "@/types/DTOs/Goals/GoalRequestDTO";
 import { API_URL } from "@env";
 import { storage } from "@/utils/storage";
 
-const token = storage.getString("token");
+const token = storage.getString("@token");
 
 export class GoalService {
 

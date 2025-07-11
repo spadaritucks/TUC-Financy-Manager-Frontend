@@ -6,10 +6,10 @@ export const styles = StyleSheet.create({
     container: {
         alignItems: "center",
         gap: 20,
-        padding : 20
+        padding: 20
     },
     content: {
-        flex : 1,
+        flex: 1,
         alignItems: "center",
         gap: 10
     },
@@ -21,14 +21,12 @@ export const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: 500
     },
-    form:{
+    form: {
         alignItems: "center"
     },
-    imagePreview: {
-        width: 100, 
-        height: 100, 
-        borderRadius: 50, 
-        marginBottom: 10
+    dateTimeInputs: {
+        flexDirection : "row",
+        width : "50%"
     },
     formFooter: {
         flexDirection: "row",

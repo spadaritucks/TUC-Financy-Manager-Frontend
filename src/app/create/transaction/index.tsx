@@ -46,26 +46,25 @@ export default function CreateTransaction() {
         }
     }, [userId]);
 
-     async function getSubcategories () {
-        const response =  await SubcategoryService.getAllSubcategories(0,10)
+    async function getSubcategories() {
+        const response = await SubcategoryService.getAllSubcategories(0, 10)
         setSubcategories(response)
-     } 
-    
+    }
 
-    useFocusEffect(useCallback(()=>{
+
+    useFocusEffect(useCallback(() => {
         getSubcategories()
-    },[]))
+    }, []))
 
 
     setValue("transactionStatus", TransactionStatus.COMPLETED);
 
-    
+
 
     async function SubmitForm(data: TransactionFormData) {
-   
+
         try {
-            console.log(data)
-            const response = await TransactionService.createTransaction({
+            await TransactionService.createTransaction({
                 userId: data.userId,
                 subCategoryId: data.subCategoryId,
                 transactionType: data.transactionType as TransactionTypeEnum,
@@ -73,7 +72,6 @@ export default function CreateTransaction() {
                 description: data.description,
                 transactionStatus: data.transactionStatus as TransactionStatus
             })
-            console.log(response)
 
             Alert.alert("Sucesso", "Valor Registrado com sucesso")
 
@@ -100,8 +98,8 @@ export default function CreateTransaction() {
                         <Select
                             control={control}
                             label="Subcategoria"
-                            items={subCategories && 
-                                subCategories.map(subCategory => ({label : subCategory.subcategoryName, value: subCategory.id})) || []}
+                            items={subCategories &&
+                                subCategories.map(subCategory => ({ label: subCategory.subcategoryName, value: subCategory.id })) || []}
                             name="subCategoryId"
                             errorMessage={errors.subCategoryId?.message ? errors.subCategoryId.message : undefined}
                         />
