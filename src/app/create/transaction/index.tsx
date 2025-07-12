@@ -15,6 +15,8 @@ import { TransactionService } from "@/services/TransactionService";
 import { TransactionTypeEnum } from "@/types/DTOs/Enums/TransactionTypeEnum";
 import { SubcategoryService } from "@/services/SubcategoryService";
 import { SubcategoryResponseDTO } from "@/types/DTOs/Subcategory/SubcategoryResponseDTO";
+import DateTimeInput from "@/components/DateTimeInput";
+import { RecurrenceFrequency } from "@/types/DTOs/Enums/RecurrenceFrequency";
 
 
 
@@ -24,7 +26,10 @@ export const createTransactionSchema = z.object({
     transactionType: z.string({ message: "Tipo de transação é obrigatório" }), // pode virar enum depois: INCOME, EXPENSE etc.
     transactionValue: z.string({ message: "Valor da transação é obrigátorio" }),
     description: z.string({ message: "Descrição é obrigatória" }),
-    transactionStatus: z.string(), // pode virar enum depois: PENDING, COMPLETED etc.
+    transactionDate: z.date(),
+    recurrent: z.string(),
+    transactionStatus: z.string(),
+    recurrenceFrequency: z.string({ message: "A frequencia do pagamento é obrigatória" }) // pode virar enum depois: PENDING, COMPLETED etc.
 });
 
 
@@ -32,13 +37,14 @@ type TransactionFormData = z.infer<typeof createTransactionSchema>
 
 export default function CreateTransaction() {
 
-    const { handleSubmit, control, formState: { errors }, setValue } = useForm<TransactionFormData>({
+    const { handleSubmit, control, formState: { errors }, setValue, watch } = useForm<TransactionFormData>({
         resolver: zodResolver(createTransactionSchema)
     })
 
     const { authData } = useAuth()
     const userId = authData ? authData.user.id : null
     const [subCategories, setSubcategories] = useState<SubcategoryResponseDTO[]>()
+    const recurrent = watch("recurrent")
 
     useEffect(() => {
         if (userId) {
@@ -70,7 +76,10 @@ export default function CreateTransaction() {
                 transactionType: data.transactionType as TransactionTypeEnum,
                 transactionValue: parseFloat(data.transactionValue),
                 description: data.description,
-                transactionStatus: data.transactionStatus as TransactionStatus
+                transactionDate: data.transactionDate.toISOString(),
+                recurrent: data.recurrent == "true" ? true : false,
+                transactionStatus: data.transactionStatus as TransactionStatus,
+                recurrenceFrequency: data.recurrenceFrequency as RecurrenceFrequency
             })
 
             Alert.alert("Sucesso", "Valor Registrado com sucesso")
@@ -79,6 +88,8 @@ export default function CreateTransaction() {
             Alert.alert("Erro", error.message)
         }
     }
+
+
 
     return (
         <SafeAreaView>
@@ -124,7 +135,37 @@ export default function CreateTransaction() {
                             errorMessage={errors.description?.message ? errors.description.message : undefined}
                         />
 
+                        <DateTimeInput
+                            control={control}
+                            name="transactionDate"
+                            title="Escolha data da transação"
+                            errorMessage={errors.transactionDate?.message ? errors.transactionDate.message : undefined}
+                        />
 
+                        <Select
+                            control={control}
+                            label="Sua transação é recorrente?"
+                            items={[{ label: "Sim", value: "true" }, { label: "Não", value: "false" }]}
+                            name="recurrent"
+                            errorMessage={errors.transactionType?.message ? errors.transactionType.message : undefined}
+                        />
+
+                        {recurrent === "true" &&
+                            <Select
+                                control={control}
+                                label="Qual é a frequencia da sua transação?"
+                                items={
+                                    [
+                                        { label: "Diario", value: RecurrenceFrequency.DAILY },
+                                        { label: "Semanal", value: RecurrenceFrequency.WEEKLY },
+                                        { label: "Mensal", value: RecurrenceFrequency.MONTHLY },
+                                        { label: "Anual", value: RecurrenceFrequency.YEARLY }
+                                    ]
+                                }
+                                name="recurrenceFrequency"
+                                errorMessage={errors.transactionType?.message ? errors.transactionType.message : undefined}
+                            />
+                        }
 
 
                         <View style={styles.formFooter}>

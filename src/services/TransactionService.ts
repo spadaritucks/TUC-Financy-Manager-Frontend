@@ -21,6 +21,24 @@ export class TransactionService {
         return data
     }
 
+    static async getCurrentMonthTransactionsByUserId(userId: string | null, month: number, year: number, page: number, size: number)
+        : Promise<TransactionResponseDTO[]> {
+        const response = await fetch(`${API_URL}/transactions/by-user?userId=${userId}&month=${month}&year=${year}&page=${page}&size=${size}`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        })
+
+        if(!response.ok){
+            throw new Error("Erro no servidor")
+        }
+
+        const data = await response.json()
+
+        return data
+    }
+
 
 
     static async createTransaction(transactionRequestDTO: TransactionRequestDTO) {

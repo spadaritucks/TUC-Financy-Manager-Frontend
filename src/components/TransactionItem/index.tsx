@@ -9,6 +9,7 @@ interface TransactionItemProps {
     description: string
 }
 
+
 export default function TransactionItem({ transactionValue, transactionType, subcategory, description }: TransactionItemProps) {
 
     const transactionValueFormatted = transactionValue.toLocaleString("pt-br",{

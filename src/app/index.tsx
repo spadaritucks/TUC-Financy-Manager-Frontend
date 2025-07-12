@@ -8,6 +8,8 @@ import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useAuth } from "@/context/auth";
+import dayjs from "dayjs";
+import { no } from "zod/v4/locales";
 
 const loginUserSchema = z.object({
     email: z.string({ message: "O email é obrigatório" }).email({ message: "Insira um email valido" }),
@@ -15,7 +17,6 @@ const loginUserSchema = z.object({
 })
 
 type LoginFormdata = z.infer<typeof loginUserSchema>
-
 
 
 export default function Index() {
