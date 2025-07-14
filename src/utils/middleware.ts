@@ -1,14 +1,15 @@
 import { useEffect } from "react";
-import { router } from "expo-router";
+import { router, usePathname } from "expo-router";
 import { useAuth } from "@/context/auth";
 
 export function useMiddleware() {
-  const { user } = useAuth();
+  const { authData } = useAuth();
+
+  const pathname = usePathname()
 
   useEffect(() => {
-    // Só verifica se já temos certeza que o AuthContext foi carregado
-    if (user === null) {
-      router.replace("/");
-    }
-  }, [user]); // Dependência reativa
+    const token = authData ? authData.token : null
+    token === null ?  router.replace("/") :  
+    pathname === "/login" || pathname === "/register" ? router.replace("/home") : null
+  }, []); 
 }

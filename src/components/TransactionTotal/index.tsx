@@ -5,7 +5,7 @@ import MaterialIcons from '@react-native-vector-icons/material-icons';
 import { TransactionResponseDTO } from "@/types/DTOs/Transactions/TransactionResponseDTO";
 import dayjs from "dayjs";
 import 'dayjs/locale/pt-br';
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { TransactionTypeEnum } from "@/types/DTOs/Enums/TransactionTypeEnum";
 import { useFocusEffect } from "expo-router";
 
@@ -19,27 +19,19 @@ export default function TransactionTotal({transactions} : TranscationTotal) {
     const month = dayjs().format("MMMM")
     const year = dayjs().year()
 
-    const [income, setIncome] = useState<number>(0)
-    const [expense, setExpense] = useState<number>(0)
-
-    function incomeMonthAmount () {
+    const income = useMemo(()=>{
         const incomeValues = transactions ? 
         transactions.filter(transaction => transaction.transactionType == TransactionTypeEnum.INCOME ) : undefined
+        const incomeSum = incomeValues ? incomeValues.reduce((acc, curr) => acc + curr.transactionValue, 0) : 0
+        return incomeSum
+    },[transactions])
 
+    const expense = useMemo(()=>{
         const expenseValues = transactions ? 
         transactions.filter(transaction => transaction.transactionType == TransactionTypeEnum.EXPENSE ) : undefined
-
-        const incomeSum = incomeValues ? incomeValues.reduce((acc, curr) => acc + curr.transactionValue, 0) : 0
         const expenseSum = expenseValues ? expenseValues.reduce((acc, curr) => acc + curr.transactionValue, 0) : 0
-        setIncome(incomeSum)
-        setExpense(expenseSum)
-    }
-
-    useFocusEffect(
-        useCallback(() => {
-            incomeMonthAmount()
-        },[income, expense])
-    )
+        return expenseSum
+    },[transactions])
 
     return (
         <View style  = {styles.container}>

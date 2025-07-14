@@ -37,5 +37,11 @@ export const styles = StyleSheet.create({
     type : {
         color : colors.gray[500],
         fontSize : 14
+    },
+    dialogDate: {
+        marginBottom : 5
+    },
+    dialogData : {
+        gap : 10
     }
 })

@@ -26,6 +26,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 password: data.password
             })
 
+            if(storage.getString("@token")){
+                storage.delete("@token")
+            }
+
             storage.set("@token", response.token)
             storage.set("@user", JSON.stringify(response.user))
             response ? setAuthData(response) : setAuthData(null)

@@ -1,5 +1,5 @@
 import Header from "@/components/Header";
-import { Alert, FlatList, ScrollView, Text, Touchable, TouchableOpacity, View } from "react-native";
+import { Alert, FlatList, Modal, ScrollView, Text, Touchable, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "./styles";
 import CustomButton from "@/components/Button";
@@ -45,7 +45,7 @@ export default function Transactions() {
             console.error(error)
         }
     }
-    console.log(transactions)
+
 
     useFocusEffect(
         useCallback(() => {
@@ -77,7 +77,10 @@ export default function Transactions() {
                             description={item.description}
                             transactionValue={item.transactionValue}
                             transactionType={item.transactionType}
-                            subcategory="Compra" />)}
+                            subcategory="Compra"
+                            transactionDate={item.transactionDate}
+                            recurrenceFrequency={item.recurrenceFrequency}
+                            recurrent = {item.recurrent} />)}
                         keyExtractor={transaction => transaction.id}
                         contentContainerStyle={styles.list}
                     />
