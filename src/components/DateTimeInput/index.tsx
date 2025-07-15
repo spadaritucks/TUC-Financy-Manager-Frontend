@@ -7,14 +7,14 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { styles } from "./styles";
 
 
-interface DateTimePickerProps  {
+interface DateTimePickerProps extends CustomButtonProps  {
     control: Control<any>
     name: string
     errorMessage?: string,
     title: string
 }
 
-export default function DateTimeInput({ control, name, errorMessage,title }: DateTimePickerProps) {
+export default function DateTimeInput({ control, name, errorMessage,title, ...rest }: DateTimePickerProps) {
 
     const [show, setShow] = useState<boolean>(false)
 
@@ -24,7 +24,7 @@ export default function DateTimeInput({ control, name, errorMessage,title }: Dat
             name={name}
             render={({ field: { value, onChange } }) => (
                 <View style={styles.container}>
-                    <CustomButton onPress={() => setShow(true)} title="Selecione a data" variant="default" />
+                    <CustomButton onPress={() => setShow(true)} title="Selecione a data" {...rest}/>
                     <Text style={styles.date}>{value ? "Data selecionada : " + new Date(value).toLocaleDateString() : title }</Text>
                     {show && <DateTimePicker
                         value={value ? new Date(value) : new Date()}

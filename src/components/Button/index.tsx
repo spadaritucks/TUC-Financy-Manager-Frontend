@@ -8,7 +8,7 @@ type ButtonVariants = "link" | "destructive" | "success" | "default"
 
 
 export interface CustomButtonProps extends TouchableOpacityProps {
-    variant : ButtonVariants
+    variant? : ButtonVariants
     title : string
 }
 
