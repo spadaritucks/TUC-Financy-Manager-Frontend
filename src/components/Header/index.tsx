@@ -23,6 +23,18 @@ export default function Header({ title }: HeaderProps) {
     const [dialog, setDialog] = useState<boolean>()
     const { authData, logout } = useAuth()
 
+    async function onLogout () {
+        const result =  await logout()
+        result === true ? navigation.reset({
+            index : 0,
+            routes : [{
+                name : "stack",
+                params : {
+                    screen : "login"
+                }
+            }]
+        }) : null
+    }
 
 
     return (
@@ -47,7 +59,7 @@ export default function Header({ title }: HeaderProps) {
 
                             <View style={styles.dialogActions}>
                                 <CustomButton title="Mudar Foto de Perfil" variant="default" />
-                                <CustomButton title="Logout" variant="destructive" onPress={logout} />
+                                <CustomButton title="Logout" variant="destructive" onPress={onLogout} />
                             </View>
                         </View>
                     </>

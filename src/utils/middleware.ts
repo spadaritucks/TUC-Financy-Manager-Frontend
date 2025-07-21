@@ -1,15 +1,19 @@
 import { useEffect } from "react";
-import { router, usePathname } from "expo-router";
 import { useAuth } from "@/context/auth";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { DrawerNavigationProp } from "@react-navigation/drawer";
+import { DrawerRoutesList } from "@/routes/drawer.routes";
 
 export function useMiddleware() {
   const { authData } = useAuth();
 
-  const pathname = usePathname()
+  const drawer = useNavigation<DrawerNavigationProp<DrawerRoutesList>>()
+  
+
 
   useEffect(() => {
     const token = authData ? authData.token : null
-    token === null ?  router.replace("/") :  
-    pathname === "/login" || pathname === "/register" ? router.replace("/home") : null
+    token === null ?  drawer.reset({index : 0, routes : [{name : "stack", params : {screen : "login"}}]}) :  
+    null
   }, []); 
 }

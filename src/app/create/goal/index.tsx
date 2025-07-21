@@ -14,7 +14,7 @@ import { SubcategoryService } from "@/services/SubcategoryService";
 import { GoalStatus } from "@/types/DTOs/Enums/GoalStatus";
 import { GoalService } from "@/services/GoalService";
 import DateTimeInput from "@/components/DateTimeInput";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { StackRoutesList } from "@/routes/stack.routes";
 
@@ -42,7 +42,7 @@ export default function CreateGoal() {
 
     const { authData } = useAuth()
     const userId = authData ? authData.user.id : null
-    const [subCategories, setSubcategories] = useState<SubcategoryResponseDTO[]>()
+    const [subCategories, setSubcategories] = useState<SubcategoryResponseDTO[]>([])
 
     useEffect(() => {
         if (userId) {
@@ -51,19 +51,27 @@ export default function CreateGoal() {
     }, [userId]);
 
     async function getSubcategories() {
-        const response = await SubcategoryService.getAllSubcategories(0, 10)
-        setSubcategories(response)
+        try {
+            const response = await SubcategoryService.getAllSubcategories(0, 10)
+            setSubcategories(response)
+       
+        } catch (error: any) {
+            console.error(error)
+        }
     }
 
 
-    useEffect(() => {
-        getSubcategories()
-    }, [])
+
+    useFocusEffect(
+        useCallback(() => {
+            getSubcategories()
+        }, [subCategories])
+    )
 
     setValue("goalStatus", GoalStatus.InProgress);
 
     async function SubmitForm(data: GoalFormData) {
-        console.log(data)
+       
         try {
             await GoalService.createGoal({
                 userId: data.userId,
@@ -90,7 +98,7 @@ export default function CreateGoal() {
         <SafeAreaView>
             <ScrollView contentContainerStyle={styles.container} nestedScrollEnabled={true}>
                 <View style={styles.content}>
-                    <Text style={styles.title}>Criar Nova Conta</Text>
+                    <Text style={styles.title}>Nova Meta</Text>
                     <View style={styles.form}>
 
                         <Select
