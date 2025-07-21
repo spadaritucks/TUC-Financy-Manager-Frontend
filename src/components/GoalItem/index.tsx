@@ -23,13 +23,13 @@ export default function GoalItem({ endDate, goalName, goalStatus, targetValue }:
                 <Text style={styles.targetValue}>{targetValue.toLocaleString("pt-br", {
                     style: "currency",
                     currency: "BRL"
-                })}</Text> :
+                })}</Text> 
 
             </View>
             <View style={styles.content}>
                 {goalStatus === GoalStatus.InProgress ? <Text style={styles.goalStatusInProgress}>Em Progresso</Text> :
                     goalStatus === GoalStatus.Completed ? <Text style={styles.goalStatusExpired}>Expirado</Text> :
-                        <Text style ={styles.goalStatusCompleted}>Expirado</Text>}
+                        <Text style ={styles.goalStatusCompleted}>Completo</Text>}
                 <Text style={styles.endDate}>{new Date(endDate).toLocaleDateString("pt-BR")}</Text>
             </View>
         </TouchableOpacity>

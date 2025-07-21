@@ -2,23 +2,30 @@ import { AuthService } from "@/services/AuthService";
 import { AuthRequestDTO } from "@/types/DTOs/Auth/AuthRequestDTO";
 import { AuthResponseDTO } from "@/types/DTOs/Auth/AuthResponseDTO";
 import { storage } from "@/utils/storage";
-import { router } from "expo-router";
+import { useNavigation } from "@react-navigation/native";
 import { createContext, ReactNode, useContext, useState } from "react";
 import { Alert } from "react-native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { StackRoutesList } from "@/routes/stack.routes";
 
 interface AuthContextData {
     authData: AuthResponseDTO | null
-    login: (data: AuthRequestDTO) => Promise<void>
+    login: (data: AuthRequestDTO) => Promise<boolean>
     logout: () => void
 }
+
+
+
 
 export const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
 
+  
+
     const [authData, setAuthData] = useState<AuthResponseDTO | null>(null)
 
-    async function login(data : AuthRequestDTO) : Promise<void> {
+    async function login(data : AuthRequestDTO) : Promise<boolean> {
         try {
 
             const response = await AuthService.Auth({
@@ -33,18 +40,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             storage.set("@token", response.token)
             storage.set("@user", JSON.stringify(response.user))
             response ? setAuthData(response) : setAuthData(null)
-
-            router.replace("/home")
-
+            
+            return true
+        
+          
         } catch (error: any) {
             Alert.alert("Erro", error.message)
+            return false
         }
     }
 
     function logout() {
         storage.delete("token")
         setAuthData(null)
-        router.replace("/")
     }
 
 

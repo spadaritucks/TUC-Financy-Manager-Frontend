@@ -6,7 +6,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "./styles";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { router, useFocusEffect } from "expo-router";
 import Select from "@/components/Select"
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/context/auth";
@@ -17,6 +16,9 @@ import { SubcategoryService } from "@/services/SubcategoryService";
 import { SubcategoryResponseDTO } from "@/types/DTOs/Subcategory/SubcategoryResponseDTO";
 import DateTimeInput from "@/components/DateTimeInput";
 import { RecurrenceFrequency } from "@/types/DTOs/Enums/RecurrenceFrequency";
+import { StackRoutesList } from "@/routes/stack.routes";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
 
 
 
@@ -36,6 +38,8 @@ export const createTransactionSchema = z.object({
 type TransactionFormData = z.infer<typeof createTransactionSchema>
 
 export default function CreateTransaction() {
+
+    const stackNavigation = useNavigation<NativeStackNavigationProp<StackRoutesList>>();
 
     const { handleSubmit, control, formState: { errors }, setValue, watch } = useForm<TransactionFormData>({
         resolver: zodResolver(createTransactionSchema)
@@ -58,9 +62,10 @@ export default function CreateTransaction() {
     }
 
 
-    useFocusEffect(useCallback(() => {
+
+    useEffect(()=>{
         getSubcategories()
-    }, []))
+    },[])
 
 
     setValue("transactionStatus", TransactionStatus.COMPLETED);
@@ -170,7 +175,7 @@ export default function CreateTransaction() {
 
                         <View style={styles.formFooter}>
                             <CustomButton title="Enviar" variant="default" onPress={handleSubmit(SubmitForm)} />
-                            <CustomButton title="Voltar" variant="link" onPress={() => router.back()} />
+                            <CustomButton title="Voltar" variant="link" onPress={() => stackNavigation.goBack()} />
                         </View>
 
                     </View>

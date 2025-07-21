@@ -6,10 +6,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Controller, useForm } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import FormError from "@/components/FormError";
-import { router } from "expo-router";
 import * as ImagePicker from 'expo-image-picker';
 import { UserService } from "@/services/UserService";
+import { StackRoutesProps } from "@/routes/stack.routes";
 
 
 
@@ -41,7 +40,7 @@ const registerUserSchema = z.object({
 type RegisterFormdata = z.infer<typeof registerUserSchema>
 
 
-export default function Register() {
+export default function Register({navigation} : StackRoutesProps<"register">) {
 
     const { handleSubmit, control, formState: { errors }, setValue } = useForm<RegisterFormdata>({
         resolver: zodResolver(registerUserSchema)
@@ -80,7 +79,7 @@ export default function Register() {
 
 
             Alert.alert("Sucesso", "Usuario criado com sucesso")
-            return router.back()
+            return navigation.goBack()
         } catch (error: any) {
             Alert.alert("Erro", error.message)
         }
@@ -161,7 +160,7 @@ export default function Register() {
                         />
                         <View style={styles.formFooter}>
                             <CustomButton title="Enviar" variant="default" onPress={handleSubmit(SubmitForm)} />
-                            <CustomButton title="Voltar" variant="link" onPress={() => router.back()} />
+                            <CustomButton title="Voltar" variant="link" onPress={() => navigation.goBack()} />
                         </View>
                     </View>
                 </View>

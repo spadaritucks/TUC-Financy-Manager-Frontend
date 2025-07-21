@@ -5,9 +5,8 @@ import MaterialIcons from '@react-native-vector-icons/material-icons';
 import { TransactionResponseDTO } from "@/types/DTOs/Transactions/TransactionResponseDTO";
 import dayjs from "dayjs";
 import 'dayjs/locale/pt-br';
-import { useCallback, useEffect, useMemo, useState } from "react";
+import {useMemo} from "react";
 import { TransactionTypeEnum } from "@/types/DTOs/Enums/TransactionTypeEnum";
-import { useFocusEffect } from "expo-router";
 
 interface TranscationTotal {
     transactions : TransactionResponseDTO[] | undefined

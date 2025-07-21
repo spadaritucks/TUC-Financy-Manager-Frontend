@@ -2,14 +2,13 @@ import { Alert, Image, ScrollView, Text, View } from "react-native";
 import { styles } from "./styles";
 import CustomInput from "@/components/Input";
 import CustomButton from "@/components/Button";
-import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useAuth } from "@/context/auth";
-import dayjs from "dayjs";
-import { no } from "zod/v4/locales";
+import { StackRoutesProps } from "@/routes/stack.routes";
+
 
 const loginUserSchema = z.object({
     email: z.string({ message: "O email é obrigatório" }).email({ message: "Insira um email valido" }),
@@ -19,13 +18,28 @@ const loginUserSchema = z.object({
 type LoginFormdata = z.infer<typeof loginUserSchema>
 
 
-export default function Index() {
+export default function Login({navigation} : StackRoutesProps<"login"> ) {
+
 
     const { handleSubmit, control, formState: { errors } } = useForm<LoginFormdata>({
         resolver: zodResolver(loginUserSchema)
     })
     const {login} = useAuth()
 
+    
+
+    async function SubmitLogin(data: LoginFormdata) {
+        const result = await login(data)
+        result === true ? navigation.reset({
+            index: 0,
+            routes: [
+              {
+                name: "tabs",
+                params: { screen: "home" },
+              },
+            ],
+          }) : null
+    }
 
     return (
         <SafeAreaView>
@@ -51,8 +65,8 @@ export default function Index() {
                             errorMessage={errors.password?.message ? errors.password.message : undefined}
                         />
                         <View style={styles.formFooter}>
-                            <CustomButton title="Enviar" variant="default" onPress={handleSubmit(login)} />
-                            <CustomButton title="Crie uma conta" variant="link" onPress={() => router.navigate("/register")} />
+                            <CustomButton title="Enviar" variant="default" onPress={handleSubmit(SubmitLogin)} />
+                            <CustomButton title="Crie uma conta" variant="link" onPress={() => navigation.navigate("register")} />
                         </View>
                     </View>
                 </View>

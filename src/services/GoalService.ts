@@ -21,6 +21,19 @@ export class GoalService {
         return data
     }
 
+    static async getGoalsByUserId(userId: string | null, page: number, size: number): Promise<GoalResponseDTO[]> {
+        const response = await fetch(`${API_URL}/goals/by-user?userId=${userId}&page=${page}&size=${size}`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        })
+
+        const data = await response.json()
+
+        return data
+    }
+
 
 
     static async createGoal(goalRequestDTO: GoalRequestDTO) {

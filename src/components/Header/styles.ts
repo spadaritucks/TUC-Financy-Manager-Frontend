@@ -18,8 +18,20 @@ export const styles = StyleSheet.create({
         fontSize : 18,
         fontWeight : "500"
     },
+    dialog:{
+        alignItems : "center",
+        justifyContent : "center",
+        gap : 10
+    },
+    username: {
+        fontSize : 17
+    },
+    dialogActions: {
+        flexDirection : "row",
+        gap : 10
+    },
     avatar: {
-        width : 50,
-        height: 50
+        width : 150,
+        height: 150
     }
 })

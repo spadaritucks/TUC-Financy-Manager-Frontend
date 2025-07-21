@@ -6,6 +6,7 @@ import { API_URL } from "@env";
 
 const token = storage.getString("@token");
 
+
 export class TransactionService {
 
     static async getAllTransactions(page: string, size: string): Promise<TransactionResponseDTO[]> {

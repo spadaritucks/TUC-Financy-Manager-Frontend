@@ -7,26 +7,29 @@ import TransactionTotal from "@/components/TransactionTotal";
 import TransactionItem from "@/components/TransactionItem";
 import Separator from "@/components/Separator";
 import { colors } from "@/theme/default-colors";
-import { router, useFocusEffect } from "expo-router";
 import { useAuth } from "@/context/auth";
 import { TransactionService } from "@/services/TransactionService";
 import { useCallback, useEffect, useState } from "react";
 import { TransactionResponseDTO } from "@/types/DTOs/Transactions/TransactionResponseDTO";
 import dayjs from "dayjs";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { BottomRoutesProps } from "@/routes/bottom.routes";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { StackRoutesList } from "@/routes/stack.routes";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
-interface TransactionTotal {
-    transactionsValues: []
-}
 
 
-export default function Transactions() {
+
+export default function Transactions({navigation} : BottomRoutesProps<"transactions">) {
+
+    const stackNavigation = useNavigation<NativeStackNavigationProp<StackRoutesList>>();
 
     const { authData } = useAuth()
     const [transactions, setTransactions] = useState<TransactionResponseDTO[]>([])
 
 
-    const currentMonth = dayjs().month() + 1
+    const currentMonth = dayjs().month()
     const currentYear = dayjs().year()
 
     const [picker, setPicker] = useState<boolean>(false)
@@ -59,18 +62,19 @@ export default function Transactions() {
                 10
             );
             setTransactions(response)
+          
         } catch (error: any) {
             console.error(error)
         }
     }
 
-   
-    useFocusEffect(
-        useCallback(() => {
-            getCurrentMonthTransactions()
-        }, [month, year])
-    )
 
+
+    useFocusEffect(
+        useCallback(()=> {
+            getCurrentMonthTransactions()
+        },[month,year])
+    )
 
 
 
@@ -80,7 +84,7 @@ export default function Transactions() {
                 <Header title="Extrato" />
                 <TransactionTotal transactions={transactions} />
                 <View style={styles.actions}>
-                    <CustomButton title="Adicionar transação" variant="success" onPress={() => router.navigate("/create/transaction")} />
+                    <CustomButton title="Adicionar transação" variant="success" onPress={() => stackNavigation.navigate("create_transaction")} />
                     <CustomButton title="Filtrar por Mês/Ano" variant="default" onPress={() => setPicker(true)} />
 
                 </View>

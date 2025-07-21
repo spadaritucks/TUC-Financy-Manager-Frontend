@@ -28,7 +28,6 @@
       "favicon": "./src/assets/logo-tfm.png"
     },
     "plugins": [
-      "expo-router",
       [
         "expo-image-picker",
         {

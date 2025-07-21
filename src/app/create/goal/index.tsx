@@ -6,7 +6,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "./styles";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { router, useFocusEffect } from "expo-router";
 import Select from "@/components/Select";
 import { useCallback, useEffect, useState } from "react";
 import { SubcategoryResponseDTO } from "@/types/DTOs/Subcategory/SubcategoryResponseDTO";
@@ -15,6 +14,9 @@ import { SubcategoryService } from "@/services/SubcategoryService";
 import { GoalStatus } from "@/types/DTOs/Enums/GoalStatus";
 import { GoalService } from "@/services/GoalService";
 import DateTimeInput from "@/components/DateTimeInput";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { StackRoutesList } from "@/routes/stack.routes";
 
 export const createGoalSchema = z.object({
     userId: z.string(),
@@ -30,6 +32,9 @@ export const createGoalSchema = z.object({
 type GoalFormData = z.infer<typeof createGoalSchema>
 
 export default function CreateGoal() {
+
+    const stackNavigation = useNavigation<NativeStackNavigationProp<StackRoutesList>>();
+
 
     const { handleSubmit, control, formState: { errors }, setValue } = useForm<GoalFormData>({
         resolver: zodResolver(createGoalSchema)
@@ -51,9 +56,9 @@ export default function CreateGoal() {
     }
 
 
-    useFocusEffect(useCallback(() => {
+    useEffect(() => {
         getSubcategories()
-    }, []))
+    }, [])
 
     setValue("goalStatus", GoalStatus.InProgress);
 
@@ -136,7 +141,7 @@ export default function CreateGoal() {
 
                         <View style={styles.formFooter}>
                             <CustomButton title="Enviar" variant="default" onPress={handleSubmit(SubmitForm)} />
-                            <CustomButton title="Voltar" variant="link" onPress={() => router.back()} />
+                            <CustomButton title="Voltar" variant="link" onPress={() => stackNavigation.goBack()} />
                         </View>
                     </View>
                 </View>
