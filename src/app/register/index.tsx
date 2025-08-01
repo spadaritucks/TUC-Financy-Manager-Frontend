@@ -81,7 +81,7 @@ export default function Register({navigation} : StackRoutesProps<"register">) {
             Alert.alert("Sucesso", "Usuario criado com sucesso")
             return navigation.goBack()
         } catch (error: any) {
-            Alert.alert("Erro", error.message)
+            Alert.alert("Erro", error.response.data.message)
         }
 
 

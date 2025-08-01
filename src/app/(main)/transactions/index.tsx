@@ -27,6 +27,7 @@ export default function Transactions({navigation} : BottomRoutesProps<"transacti
 
     const { authData } = useAuth()
     const [transactions, setTransactions] = useState<TransactionResponseDTO[]>([])
+    
 
 
     const currentMonth = dayjs().month()
@@ -64,7 +65,7 @@ export default function Transactions({navigation} : BottomRoutesProps<"transacti
             setTransactions(response)
           
         } catch (error: any) {
-            console.error(error)
+            console.error(error.response.data.message)
         }
     }
 

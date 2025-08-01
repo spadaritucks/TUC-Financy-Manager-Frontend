@@ -57,15 +57,19 @@ export default function CreateTransaction() {
     }, [userId]);
 
     async function getSubcategories() {
-        const response = await SubcategoryService.getAllSubcategories(0, 10)
-        setSubcategories(response)
+        try {
+            const response = await SubcategoryService.getAllSubcategories(0, 10)
+            setSubcategories(response)
+        } catch (error: any) {
+            console.error(error.response.data.message)
+        }
     }
 
 
 
-    useEffect(()=>{
+    useEffect(() => {
         getSubcategories()
-    },[])
+    }, [])
 
 
     setValue("transactionStatus", TransactionStatus.COMPLETED);
@@ -90,7 +94,7 @@ export default function CreateTransaction() {
             Alert.alert("Sucesso", "Valor Registrado com sucesso")
 
         } catch (error: any) {
-            Alert.alert("Erro", error.message)
+            Alert.alert("Erro", error.response.data.message)
         }
     }
 

@@ -3,57 +3,72 @@ import { GoalResponseDTO } from "@/types/DTOs/Goals/GoalResponseDTO";
 import { GoalRequestDTO } from "@/types/DTOs/Goals/GoalRequestDTO";
 import { API_URL } from "@env";
 import { storage } from "@/utils/storage";
+import { api } from "@/axios";
 
 const token = storage.getString("@token");
 
 export class GoalService {
 
     static async getAllGoals(page: string, size: string): Promise<GoalResponseDTO[]> {
-        const response = await fetch(`${API_URL}/goals?page=${page}&size=${size}`, {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            }
+       
+        const response = await api.get("/goals", {
+            params: {
+                page,
+                size
+            },
+            headers : {
+                "Authorization" : `Bearer ${token}`
+            },
         })
 
-        const data = await response.json()
+        if (response.status !== 200) {
+            throw new Error("Erro no servidor")
+        }
 
-        return data
+        return response.data
+
     }
 
     static async getGoalsByUserId(userId: string | null, page: number, size: number): Promise<GoalResponseDTO[]> {
-        const response = await fetch(`${API_URL}/goals/by-user?userId=${userId}&page=${page}&size=${size}`, {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
+       
+        const response = await api.get("/goals/by-user", {
+            params: {
+                userId,
+                page,
+                size
+            },
+            headers : {
+                "Authorization" : `Bearer ${token}`
             }
         })
 
-        const data = await response.json()
+        if (response.status !== 200) {
+            throw new Error("Erro no servidor")
+        }
 
-        return data
+        return response.data
+
+
     }
 
 
 
     static async createGoal(goalRequestDTO: GoalRequestDTO) {
-        const response = await fetch(`${API_URL}/goals`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
+      
+        const response = await api.post("/goals", goalRequestDTO,{
+            headers : {
+                "Authorization" : `Bearer ${token}`
             },
-            body: JSON.stringify(goalRequestDTO)
+            
         })
 
-        const data = await response.json()
-
-        if (!response.ok) {
-            if (Array.isArray(data) && data[0]?.message) {
-                throw new Error(data.map((e: any) => e.message).join("\n"));
+        if (response.status !== 201) {
+            if (Array.isArray(response.data) && response.data[0]?.message) {
+                throw new Error(response.data.map((e: any) => e.message).join("\n"));
             }
-            throw new Error(data.message)
+            throw new Error(response.data.message)
         }
-        return data
+        return response.data
+
     }
 }

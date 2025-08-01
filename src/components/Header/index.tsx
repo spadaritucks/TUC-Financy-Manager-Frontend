@@ -44,7 +44,7 @@ export default function Header({ title }: HeaderProps) {
             </TouchableOpacity>
           
             <Text style={styles.title}>{title}</Text>
-            <Avatar onPress={() => setDialog(true)} />
+            <Avatar userPhoto={authData?.user.userPhoto} onPress={() => setDialog(true)} />
 
             {dialog && <Dialog
                 show={dialog}
@@ -54,7 +54,7 @@ export default function Header({ title }: HeaderProps) {
                     <>
 
                         <View style={styles.dialog}>
-                            <Image style={styles.avatar} source={require("@/assets/logo-tfm.png")} />
+                            <Image style={styles.avatar} source={{uri : authData?.user.userPhoto}} />
                             <Text style={styles.username}>{authData?.user.name}</Text>
 
                             <View style={styles.dialogActions}>

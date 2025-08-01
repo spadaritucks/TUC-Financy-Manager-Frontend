@@ -1,3 +1,4 @@
+import { api } from "@/axios";
 import { useAuth } from "@/context/auth";
 import { UserRequestDTO } from "@/types/DTOs/Users/UserRequestDTO";
 import { UserResponseDTO } from "@/types/DTOs/Users/UserResponseDTO";
@@ -10,37 +11,38 @@ const token = storage.getString("token");
 export class UserService {
 
     static async getAllUsers(page: string, size: string): Promise<UserResponseDTO[]> {
-        const response = await fetch(`${API_URL}/users?page=${page}&size=${size}`,{
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            }
+        const response = await api.get("/users", {
+            params: {
+                page,
+                size
+            },
+            headers : {
+                "Authorization" : `Bearer ${token}`
+            },
         })
 
-        const data = await response.json()
+        if (response.status !== 200) {
+            throw new Error("Erro no servidor")
+        }
 
-        return data
+        return response.data
     }
 
     static async createUser(UserRequestDTO: UserRequestDTO): Promise<void> {
-        const response = await fetch(`${API_URL}/users`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
+        const response = await api.post("/users", UserRequestDTO,{
+            headers : {
+                "Authorization" : `Bearer ${token}`
             },
-            body: JSON.stringify(UserRequestDTO)
+            
         })
 
-
-        const data = await response.json()
-
-        if (!response.ok) {
-            if (Array.isArray(data) && data[0]?.message) {
-                throw new Error(data.map((e: any) => e.message).join("\n"));
+        if (response.status !== 201) {
+            if (Array.isArray(response.data) && response.data[0]?.message) {
+                throw new Error(response.data.map((e: any) => e.message).join("\n"));
             }
-            throw new Error(data.message)
+            throw new Error(response.data.message)
         }
-        return data
+        return response.data
 
     }
 }

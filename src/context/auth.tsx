@@ -30,6 +30,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 email: data.email,
                 password: data.password
             })
+            console.log(response)
 
             if (storage.getString("@token")) {
                 storage.delete("@token")
@@ -43,14 +44,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 
         } catch (error: any) {
-            Alert.alert("Erro", error.message)
+            Alert.alert("Erro", error.response.data.message)
             return false
         }
     }
 
    async function logout(): Promise<boolean> {
         try {
-            storage.delete("token")
+            storage.delete("@token")
+            storage.delete("@user")
             setAuthData(null)
 
             return true

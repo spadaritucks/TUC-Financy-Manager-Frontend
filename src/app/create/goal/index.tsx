@@ -56,7 +56,7 @@ export default function CreateGoal() {
             setSubcategories(response)
        
         } catch (error: any) {
-            console.error(error)
+            console.error(error.response.data.message)
         }
     }
 
@@ -87,7 +87,7 @@ export default function CreateGoal() {
             Alert.alert("Sucesso", "Meta registrada com sucesso")
 
         } catch (error: any) {
-            Alert.alert("Erro", error.message)
+            Alert.alert("Erro", error.response.data.message)
         }
     }
 

@@ -31,7 +31,7 @@ export default function Goal() {
       setGoals(response)
 
     }catch(error : any) {
-      console.error(error)
+      console.error(error.response.data.message)
     }
   }
 

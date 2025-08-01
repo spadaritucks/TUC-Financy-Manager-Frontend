@@ -22,7 +22,10 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.thiagospadarii.frontend"
+      "package": "com.thiagospadarii.frontend",
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./src/assets/logo-tfm.png"
@@ -34,6 +37,11 @@
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "f057a17e-6cf8-41e9-8dcc-e9b9e2ed306b"
+      }
+    }
   }
 }
